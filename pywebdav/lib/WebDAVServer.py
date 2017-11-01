@@ -102,7 +102,11 @@ class DAVRequestHandler(AuthServer.AuthRequestHandler, LockManager):
                     # Use iterator to reduce using memory
                     log.debug("Use iterator")
                     for buf in DATA:
-                        self.wfile.write(buf)
+                        if type(buf) is str:
+                            b = buf.encode()
+                        else:
+                            b = buf
+                        self.wfile.write(b)
                         self.wfile.flush()
                 else:
                     # Don't use iterator, it's a compatibility option
